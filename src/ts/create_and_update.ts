@@ -7,7 +7,11 @@ const debugTools = new DebugTools({ showlinesInCenter: true })
 
 const gridCardInstances: Card[][][] = []
 
-const card = new Card({ position: { x: 0, y: 0 }, size: { w: 22, h: 32 } })
+const card = new Card({
+  position: { x: 0, y: 0 },
+  size: { w: 22, h: 32 },
+  currentFace: 3,
+})
 
 export function mainCreate() {
   console.log('[Create]')
