@@ -6,8 +6,8 @@ export const context = canvas.getContext('2d') as CanvasRenderingContext2D
 export let currentFrame: number = 0
 
 function canvasInit() {
-  canvas.width = 512
-  canvas.height = 312
+  canvas.width = 256
+  canvas.height = 224
   context.imageSmoothingEnabled = false
   canvas.style.imageRendering = 'pixelated'
 }

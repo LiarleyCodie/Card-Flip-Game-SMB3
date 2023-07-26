@@ -1,63 +1,32 @@
 import { background } from './background'
-import { context as c, canvas } from './canvas'
+import { DebugTools } from './Debug'
 import { createFilledGrid } from './grid'
+import { Card } from './card'
 
-const gridInstances: ICard[][][] = []
+const debugTools = new DebugTools({ showlinesInCenter: true })
 
-interface IGameObject {
-  position: {
-    x: number
-    y: number
-  }
-  size: {
-    w: number
-    h: number
-  }
-}
+const gridCardInstances: Card[][][] = []
 
-//#region Cards
-interface ICard extends IGameObject {
-  draw: () => void
-}
-
-const card: ICard = {
-  position: {
-    x: 0,
-    y: 0,
-  },
-  size: {
-    w: 22,
-    h: 32,
-  },
-  draw() {
-    c.fillStyle = 'red'
-    c.fillRect(this.position.x, this.position.y, this.size.w, this.size.h)
-  },
-}
-//#endregion
-
-//#region Cards Grid
-// grid[row][col]
-const cardsGrid: ICard[][] = createFilledGrid(2, 3, card)
-
-gridInstances.push(cardsGrid)
-//#endregion
+const card = new Card({ position: { x: 0, y: 0 }, size: { w: 22, h: 32 } })
 
 export function mainCreate() {
   console.log('[Create]')
+  gridCardInstances[0] = createFilledGrid(2, 3, card)
 }
 
 export function mainUpdate() {
-  // console.log('[Update]')
   background?.()
+  debugTools.enable()
 
-  if (gridInstances.length) {
-    gridInstances.forEach((gridInst: ICard[][]) => {
-      gridInst.forEach((gridRow: ICard[]) => {
-        gridRow.forEach((card: ICard) => {
+  if (gridCardInstances.length) {
+    gridCardInstances.forEach((gridInst: Card[][]) => {
+      gridInst.forEach((gridRow: Card[]) => {
+        gridRow.forEach((card: Card) => {
           card?.draw()
         })
       })
     })
   }
 }
+
+// cardsGrid[row][col]
