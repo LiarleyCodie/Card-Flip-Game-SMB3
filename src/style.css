@@ -1,0 +1,24 @@
+:root {
+  font-size: 62.5%;
+  font-family: monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 1.4rem;
+  background: #121214;
+  color: #eee;
+  display: grid;
+  place-content: center;
+  min-height: 100vh;
+}
+
+canvas {
+  outline: 1px solid #eee;
+  margin: 1.2rem;
+}
