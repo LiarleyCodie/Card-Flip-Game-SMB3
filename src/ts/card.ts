@@ -1,4 +1,4 @@
-import { context } from './canvas'
+import { context } from '../main'
 import { GameObject } from './GameObject'
 import { sprites } from './preload'
 
@@ -24,6 +24,7 @@ interface ICard {
 export class Card extends GameObject {
   private currentFace: number
   private faces: number[]
+
   public constructor({ position, size, currentFace }: ICard) {
     super({ position, size })
     this.currentFace = currentFace
