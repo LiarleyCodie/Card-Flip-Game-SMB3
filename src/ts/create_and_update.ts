@@ -1,6 +1,6 @@
 import { background } from './background'
 import { DebugTools } from './Debug'
-import { Grid, createFilledGrid } from './grid'
+import { Grid } from './grid'
 import { Card } from './card'
 import { canvasSettings } from '../main'
 
@@ -10,17 +10,26 @@ const debugTools = new DebugTools({
 })
 const gridInstances: Grid[] = []
 
-const card = new Card({
-  position: { x: 0, y: 0 },
-  size: { w: 22, h: 32 },
-  currentFace: 3,
-})
-
 export function mainCreate() {
   console.log('[Create]')
-  gridInstances[0] = createFilledGrid(2, 6, card)
+  let grid = new Grid({
+    position: { x: canvasSettings.width / 2, y: canvasSettings.height / 2 },
+  })
+  grid.createFilledGrid(2, 5)
+  grid.grid.forEach((row) => {
+    for (let i = 0; i < row.length; i++) {
+      row[i] = new Card({
+        position: { x: 0, y: 0 },
+        size: { w: 22, h: 32 },
+        currentFace: 3,
+        id: i,
+      })
+    }
+  })
+  grid.distributeCards()
 
-  console.log(gridInstances)
+  gridInstances.push(grid)
+  // console.log(gridInstances[0])
 }
 
 export function mainUpdate() {
@@ -33,7 +42,7 @@ export function mainUpdate() {
         gridInst.grid.forEach((row) => {
           if (row.length) {
             row.forEach((card: Card) => {
-              card.draw?.()
+              card?.draw?.()
             })
           }
         })

@@ -19,19 +19,22 @@ interface ICard {
     h: number
   }
   currentFace: number
+  id: number
 }
 
 export class Card extends GameObject {
   private currentFace: number
   private faces: number[]
+  public id: number
 
-  public constructor({ position, size, currentFace }: ICard) {
+  public constructor({ position, size, currentFace, id }: ICard) {
     super({ position, size })
     this.currentFace = currentFace
     this.faces = [132, 0, 22, 44, 66, 88, 110]
+    this.id = id
   }
 
-  draw() {
+  public draw() {
     context.drawImage(
       sprites,
       this.faces[this.currentFace],
@@ -43,5 +46,11 @@ export class Card extends GameObject {
       this.size.w,
       this.size.h
     )
+  }
+
+  // temporary
+  public changeFace(id: number): void {
+    let _id = id > this.faces.length ? 0 : id
+    this.currentFace = _id
   }
 }
