@@ -15,7 +15,7 @@ export function mainCreate() {
   let grid = new Grid({
     position: { x: canvasSettings.width / 2, y: canvasSettings.height / 2 },
   })
-  grid.createFilledGrid(2, 5)
+  grid.createGrid(2, 5)
   grid.grid.forEach((row) => {
     for (let i = 0; i < row.length; i++) {
       row[i] = new Card({

@@ -1,7 +1,3 @@
-// // prettier-ignore
-// export function createFilledGrid(rows: number, cols: number, object: any = null): any[][] {
-//   const grid: any[][] = []
-
 import { Card } from './card'
 
 export class Grid {
@@ -11,7 +7,13 @@ export class Grid {
     this.grid = []
     this.position = position
   }
-  public createFilledGrid(rows: number, cols: number, object: any = null) {
+  /** 
+    * @param {number} rows - indicate the rows amount
+    * @param {number} cols - indicates the columns amount
+    * @param {any} object - if you want to create an one already populated grid, pass an (card) object as argument
+    * this method will define the `grid` of this instance (*optional*)
+    */
+  public createGrid(rows: number, cols: number, object?: any) {
     const grid: Card[][] = []
 
     for (let row = 0; row < rows; row++) {
@@ -23,6 +25,11 @@ export class Grid {
 
     this.grid = grid
   }
+  /**
+   * @param {number} gap - Indicate the gap between cards (*optional*)
+   * As the name suggests, this method will automatically deal the cards
+   * @default [5]
+   */
   public distributeCards(gap: number = 5) {
     if (this.grid.length) {
       const totalWidth: number = this.grid[0].length * this.grid[0][0].size.w + ((this.grid[0].length - 1) * gap)
@@ -32,6 +39,11 @@ export class Grid {
           const card = this.grid[row][col]
           card.position.x = this.position.x - totalWidth / 2 + (card.size.w * col) + (gap * col)
           card.position.y = this.position.y - totalHeight / 2 + (card.size.h * row) + (gap * row)
+
+          if (col === 1 && row === 1) {
+            card.changeFace('mushroom')
+            card.flip()
+          }
         }
       }
     }

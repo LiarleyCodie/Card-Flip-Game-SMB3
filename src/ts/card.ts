@@ -2,12 +2,6 @@ import { context } from '../main'
 import { GameObject } from './GameObject'
 import { sprites } from './preload'
 
-// 0 = backface
-// 1 = 1UP
-// 2 = fireflower
-// 3 = mushroom
-// 4 = 20 coins
-// 5 = 10 coins
 
 interface ICard {
   position: {
@@ -20,24 +14,40 @@ interface ICard {
   }
   currentFace: number
   id: number
+  comparisonID: number
 }
+
+type TFaces = 'oneup' | 'star' | 'fireflower' | 'mushroom' | 'twentycoins' | 'tencoins'
 
 export class Card extends GameObject {
   private currentFace: number
-  private faces: number[]
+  private faces: { back: number; oneup: number; star: number; fireflower: number; mushroom: number; twentycoins: number; tencoins: number }
   public id: number
+  public comparisonID: number
+  private flipped: boolean
 
-  public constructor({ position, size, currentFace, id }: ICard) {
+  public constructor({ position, size, id, comparisonID }: ICard) {
     super({ position, size })
-    this.currentFace = currentFace
-    this.faces = [132, 0, 22, 44, 66, 88, 110]
+    this.faces = {
+      back: 132,
+      oneup: 0,
+      star: 22,
+      fireflower: 44,
+      mushroom: 66,
+      twentycoins: 88,
+      tencoins: 110
+    }
+    this.currentFace = this.faces.star
     this.id = id
+    this.comparisonID = comparisonID
+    this.flipped = false
   }
 
   public draw() {
+    const currentFace: number = this.flipped ? this.currentFace : this.faces.back
     context.drawImage(
       sprites,
-      this.faces[this.currentFace],
+      currentFace,
       0,
       22,
       32,
@@ -48,9 +58,12 @@ export class Card extends GameObject {
     )
   }
 
+  public flip() {
+    this.flipped = !this.flipped
+  }
+
   // temporary
-  public changeFace(id: number): void {
-    let _id = id > this.faces.length ? 0 : id
-    this.currentFace = _id
+  public changeFace(face: TFaces): void {
+    this.currentFace = this.faces[face]
   }
 }
