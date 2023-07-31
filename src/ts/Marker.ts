@@ -60,4 +60,7 @@ export class Marker extends GameObject {
 			this.cardIndex.row = this.cardIndex.row >= lastRow ? 0 : this.cardIndex.row += 1
 		}
 	}
+	public action() {
+		this.currentCard.flip()
+	}
 }

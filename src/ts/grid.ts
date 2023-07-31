@@ -40,12 +40,6 @@ export class Grid {
           const card = this.grid[row][col]
           card.position.x = this.position.x - totalWidth / 2 + (card.size.w * col) + (colGap * col)
           card.position.y = this.position.y - totalHeight / 2 + (card.size.h * row) + (rowGap * row)
-
-          if (col === 1 && row === 1) {
-            card.changeFace('mushroom')
-            card.flip()
-            console.log(card.currentFace)
-          }
         }
       }
     }

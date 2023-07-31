@@ -24,13 +24,11 @@ function createGrid(): Grid {
       row[i] = new Card({
         position: { x: 0, y: 0 },
         size: { w: 22, h: 32 },
-        currentFace: 3,
-        id: i,
+        id: i
       })
     }
   })
   grid.distributeCards(5, 8)
-
   return grid
 }
 
@@ -46,7 +44,7 @@ export function mainCreate() {
 
   gridInstances[0] = grid
   markerInstances[0] = createMarker(grid)
-
+  gridInstances[0].grid[0][3].setFace('tencoins')
   initControls()
 }
 

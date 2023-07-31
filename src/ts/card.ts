@@ -12,30 +12,65 @@ interface ICard {
     w: number
     h: number
   }
-  currentFace: number
   id: number
+}
+
+interface IFace {
+  title: string
+  face: number
+}
+
+interface IFaces {
+  back: TFace
+  oneup: TFace
+  star: TFace
+  fireflower: TFace
+  mushroom: TFace
+  twentycoins: TFace
+  tencoins: TFace 
 }
 
 type TFaces = 'oneup' | 'star' | 'fireflower' | 'mushroom' | 'twentycoins' | 'tencoins'
 
 export class Card extends GameObject {
-  public currentFace: number
-  private faces: { back: number; oneup: number; star: number; fireflower: number; mushroom: number; twentycoins: number; tencoins: number }
+  private currentFace: TFace
+  private faces: IFaces
   public id: number
   private flipped: boolean
 
   public constructor({ position, size, id }: ICard) {
     super({ position, size })
     this.faces = {
-      back: 132,
-      oneup: 0,
-      star: 22,
-      fireflower: 44,
-      mushroom: 66,
-      twentycoins: 88,
-      tencoins: 110
+      back: {
+        title: 'backface',
+        face: 132
+      },
+      oneup: {
+        title: 'oneup',
+        face: 0
+      },
+      star: {
+        title: "star",
+        face: 22
+      },
+      fireflower: {
+        title: "fireflower",
+        face: 44
+      },
+      mushroom: {
+        title: "mushroom",
+        face: 66
+      },
+      twentycoins: {
+        title: "twentycoins",
+        face: 88
+      },
+      tencoins: {
+        title: "tencoins",
+        face: 110
+      },
     }
-    this.currentFace = this.faces.star
+    this.currentFace = this.faces.mushroom
     this.id = id
     this.flipped = false
   }
@@ -44,7 +79,7 @@ export class Card extends GameObject {
     const currentFace: number = this.flipped ? this.currentFace : this.faces.back
     context.drawImage(
       sprites,
-      currentFace,
+      currentFace.face,
       0,
       22,
       32,
@@ -59,8 +94,11 @@ export class Card extends GameObject {
     this.flipped = !this.flipped
   }
 
-  // temporary
-  public changeFace(face: TFaces): void {
+  public setFace(face: TFaces = 'mushroom') {
     this.currentFace = this.faces[face]
+  }
+
+  public getFace(): string {
+    return this.currentFace.title
   }
 }
