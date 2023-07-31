@@ -1,17 +1,19 @@
-import { background } from './background'
+import { background } from './Background'
 import { DebugTools } from './Debug'
-import { Grid } from './grid'
-import { Card } from './card'
+import { Grid } from './Grid'
+import { Card } from './Card'
+import { Marker } from './Marker'
 import { canvasSettings } from '../main'
 
+const gridInstances: Grid[] = []
+const markerInstances: Marker[] = []
+
 const debugTools = new DebugTools({
-  showlinesInCenter: true,
+  showlinesInCenter: false,
   showCurrentFrame: false,
 })
-const gridInstances: Grid[] = []
 
-export function mainCreate() {
-  console.log('[Create]')
+function createGrid(): Grid {
   let grid = new Grid({
     position: { x: canvasSettings.width / 2, y: canvasSettings.height / 2 },
   })
@@ -26,10 +28,24 @@ export function mainCreate() {
       })
     }
   })
-  grid.distributeCards()
+  grid.distributeCards(5, 8)
 
-  gridInstances.push(grid)
-  // console.log(gridInstances[0])
+  return grid
+}
+
+function createMarker(grid: Grid): Marker {
+  const marker = new Marker({ position: { x: 0, y: 0 }, size: { w: 30, h: 40 }, grid })
+  marker.autoSetInitialPosition()
+  return marker
+}
+
+export function mainCreate() {
+  console.log('[Create]')
+  const grid = createGrid()
+
+  gridInstances[0] = grid
+  markerInstances[0] = createMarker(grid)
+  console.log(markerInstances)
 }
 
 export function mainUpdate() {
@@ -47,6 +63,12 @@ export function mainUpdate() {
           }
         })
       }
+    })
+  }
+
+  if (markerInstances.length) {
+    markerInstances.forEach((marker: Marker) => {
+      marker?.draw?.()
     })
   }
 }

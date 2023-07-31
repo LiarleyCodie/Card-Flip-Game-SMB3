@@ -14,19 +14,17 @@ interface ICard {
   }
   currentFace: number
   id: number
-  comparisonID: number
 }
 
 type TFaces = 'oneup' | 'star' | 'fireflower' | 'mushroom' | 'twentycoins' | 'tencoins'
 
 export class Card extends GameObject {
-  private currentFace: number
+  public currentFace: number
   private faces: { back: number; oneup: number; star: number; fireflower: number; mushroom: number; twentycoins: number; tencoins: number }
   public id: number
-  public comparisonID: number
   private flipped: boolean
 
-  public constructor({ position, size, id, comparisonID }: ICard) {
+  public constructor({ position, size, id }: ICard) {
     super({ position, size })
     this.faces = {
       back: 132,
@@ -39,7 +37,6 @@ export class Card extends GameObject {
     }
     this.currentFace = this.faces.star
     this.id = id
-    this.comparisonID = comparisonID
     this.flipped = false
   }
 
