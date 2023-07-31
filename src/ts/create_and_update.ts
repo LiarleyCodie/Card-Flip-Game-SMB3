@@ -4,9 +4,10 @@ import { Grid } from './Grid'
 import { Card } from './Card'
 import { Marker } from './Marker'
 import { canvasSettings } from '../main'
+import { initControls } from './Inputs'
 
 const gridInstances: Grid[] = []
-const markerInstances: Marker[] = []
+export const markerInstances: Marker[] = []
 
 const debugTools = new DebugTools({
   showlinesInCenter: false,
@@ -35,7 +36,7 @@ function createGrid(): Grid {
 
 function createMarker(grid: Grid): Marker {
   const marker = new Marker({ position: { x: 0, y: 0 }, size: { w: 30, h: 40 }, grid })
-  marker.autoSetInitialPosition()
+  marker.updatePosition()
   return marker
 }
 
@@ -45,7 +46,8 @@ export function mainCreate() {
 
   gridInstances[0] = grid
   markerInstances[0] = createMarker(grid)
-  console.log(markerInstances)
+
+  initControls()
 }
 
 export function mainUpdate() {
@@ -69,6 +71,7 @@ export function mainUpdate() {
   if (markerInstances.length) {
     markerInstances.forEach((marker: Marker) => {
       marker?.draw?.()
+      marker?.updatePosition?.()
     })
   }
 }

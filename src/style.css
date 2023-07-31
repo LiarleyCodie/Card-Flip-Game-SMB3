@@ -30,3 +30,36 @@ button {
   padding: 1rem 2.8rem;
   cursor: pointer;
 }
+
+.inputs {
+  height: 14rem;
+  width: 20rem;
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.inputs button {
+  font-size: 2.4rem;
+  width: auto;
+  height: auto;
+  padding: 0;
+}
+
+#moveUp {
+  grid-column: 2/3;
+}
+#moveDown {
+  grid-column: 2/3;
+  grid-row: 2/3;
+}
+#moveLeft {
+  grid-row: 2/3;
+  grid-column: 1/2;
+
+}
+#moveRight {
+  grid-row: 2/3;
+  grid-row: 2/3;
+}
