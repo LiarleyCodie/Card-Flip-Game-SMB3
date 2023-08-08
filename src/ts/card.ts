@@ -2,7 +2,6 @@ import { context } from '../main'
 import { GameObject } from './GameObject'
 import { sprites } from './preload'
 
-
 interface ICard {
   position: {
     x: number
@@ -21,19 +20,25 @@ interface IFace {
 }
 
 interface IFaces {
-  back: TFace
-  oneup: TFace
-  star: TFace
-  fireflower: TFace
-  mushroom: TFace
-  twentycoins: TFace
-  tencoins: TFace 
+  back: IFace
+  oneup: IFace
+  star: IFace
+  fireflower: IFace
+  mushroom: IFace
+  twentycoins: IFace
+  tencoins: IFace
 }
 
-type TFaces = 'oneup' | 'star' | 'fireflower' | 'mushroom' | 'twentycoins' | 'tencoins'
+type TFaces =
+  | 'oneup'
+  | 'star'
+  | 'fireflower'
+  | 'mushroom'
+  | 'twentycoins'
+  | 'tencoins'
 
 export class Card extends GameObject {
-  private currentFace: TFace
+  private currentFace: IFace
   private faces: IFaces
   public id: number
   private flipped: boolean
@@ -43,31 +48,31 @@ export class Card extends GameObject {
     this.faces = {
       back: {
         title: 'backface',
-        face: 132
+        face: 132,
       },
       oneup: {
         title: 'oneup',
-        face: 0
+        face: 0,
       },
       star: {
-        title: "star",
-        face: 22
+        title: 'star',
+        face: 22,
       },
       fireflower: {
-        title: "fireflower",
-        face: 44
+        title: 'fireflower',
+        face: 44,
       },
       mushroom: {
-        title: "mushroom",
-        face: 66
+        title: 'mushroom',
+        face: 66,
       },
       twentycoins: {
-        title: "twentycoins",
-        face: 88
+        title: 'twentycoins',
+        face: 88,
       },
       tencoins: {
-        title: "tencoins",
-        face: 110
+        title: 'tencoins',
+        face: 110,
       },
     }
     this.currentFace = this.faces.mushroom
@@ -76,7 +81,9 @@ export class Card extends GameObject {
   }
 
   public draw() {
-    const currentFace: number = this.flipped ? this.currentFace : this.faces.back
+    const currentFace: IFace | number = this.flipped
+      ? this.currentFace
+      : this.faces.back
     context.drawImage(
       sprites,
       currentFace.face,

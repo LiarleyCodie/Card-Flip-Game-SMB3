@@ -14,37 +14,76 @@ const debugTools = new DebugTools({
   showCurrentFrame: false,
 })
 
-function createGrid(): Grid {
-  let grid = new Grid({
+const patterns = [
+  [1, 6],
+  [2, 4],
+]
+let currentPattern: number[] = patterns[0]
+const faces = ['oneup' , 'star' , 'fireflower' , 'mushroom' , 'twentycoins' , 'tencoins'] //prettier-ignore
+function createGrid(pattern: number[], objects: any[]): Grid {
+  const grid = new Grid({
     position: { x: canvasSettings.width / 2, y: canvasSettings.height / 2 },
   })
-  grid.createGrid(2, 5)
-  grid.grid.forEach((row) => {
-    for (let i = 0; i < row.length; i++) {
-      row[i] = new Card({
-        position: { x: 0, y: 0 },
-        size: { w: 22, h: 32 },
-        id: i
-      })
+  function createRows(cols: number): Card[][] {
+    let rows: Card[][] = []
+    const rowFaces: string[] = []
+    let faceID: number = Math.round(Math.random() * (objects.length - 1))
+    for (let i = 0; i < cols; i++) {
+      rowFaces.push(objects[faceID])
+      faceID = faceID + 1
+      if (faceID > objects.length - 1) faceID = 0
     }
-  })
-  grid.distributeCards(5, 8)
+    let firstRow: Card[] = []
+    for (let i = 0; i < cols; i++) {
+      const card = new Card({ position: { x: 0, y: 0}, size: { w: 22, h: 32}, id: 0 }) //prettier-ignore
+      //@ts-ignore
+      card.setFace(rowFaces[i])
+      firstRow.push(card)
+    }
+    firstRow = firstRow.sort(() => Math.random() - 0.5)
+
+    const secondRow: Card[] = []
+    for (let i = 0; i < cols; i++) {
+      const card = new Card({ position: { x: 0, y: 0}, size: { w: 22, h: 32}, id: 0 }) //prettier-ignore
+      //@ts-ignore
+      card.setFace(rowFaces[i])
+      secondRow.push(card)
+    }
+    
+    for (let i = 0; i < cols; i++) {
+      firstRow[i].id = i
+      secondRow[i].id = i
+    }
+    rows = [firstRow, secondRow]
+    return rows
+  }
+  let rows: Card[][] = []
+  for (let i = 0; i < pattern[0]; i++) {
+    let row = createRows(pattern[1])
+    rows.push(...row)
+  }
+  grid.grid = rows
   return grid
 }
 
 function createMarker(grid: Grid): Marker {
-  const marker = new Marker({ position: { x: 0, y: 0 }, size: { w: 30, h: 40 }, grid })
+  const marker = new Marker({
+    position: { x: 0, y: 0 },
+    size: { w: 30, h: 40 },
+    grid,
+  })
   marker.updatePosition()
   return marker
 }
 
 export function mainCreate() {
   console.log('[Create]')
-  const grid = createGrid()
+  const grid = createGrid(currentPattern, faces)
+  grid.distributeCards()
+  console.log(grid)
 
   gridInstances[0] = grid
   markerInstances[0] = createMarker(grid)
-  gridInstances[0].grid[0][3].setFace('tencoins')
   initControls()
 }
 

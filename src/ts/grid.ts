@@ -7,12 +7,12 @@ export class Grid {
     this.grid = []
     this.position = position
   }
-  /** 
-    * @param {number} rows - indicate the rows amount
-    * @param {number} cols - indicates the columns amount
-    * @param {any} object - if you want to create an one already populated grid, pass an (card) object as argument
-    * this method will define the `grid` of this instance (*optional*)
-    */
+  /**
+   * @param {number} rows - indicate the rows amount
+   * @param {number} cols - indicates the columns amount
+   * @param {any} object - if you want to create an one already populated grid, pass an (card) object as argument
+   * this method will define the `grid` of this instance (*optional*)
+   */
   public createGrid(rows: number, cols: number, object?: any) {
     const grid: Card[][] = []
 
@@ -33,13 +33,13 @@ export class Grid {
    */
   public distributeCards(rowGap: number = 5, colGap: number = 5) {
     if (this.grid.length) {
-      const totalWidth: number = this.grid[0].length * this.grid[0][0].size.w + ((this.grid[0].length - 1) * colGap)
-      const totalHeight: number = this.grid.length * this.grid[0][0].size.h + ((this.grid.length - 1) * rowGap)
+      const totalWidth: number = this.grid[0].length * this.grid[0][0].size.w + (this.grid[0].length - 1) * colGap
+      const totalHeight: number = this.grid.length * this.grid[0][0].size.h + (this.grid.length - 1) * rowGap
       for (let row: number = 0; row < this.grid.length; row++) {
         for (let col: number = 0; col < this.grid[row].length; col++) {
           const card = this.grid[row][col]
-          card.position.x = this.position.x - totalWidth / 2 + (card.size.w * col) + (colGap * col)
-          card.position.y = this.position.y - totalHeight / 2 + (card.size.h * row) + (rowGap * row)
+          card.position.x = this.position.x - totalWidth / 2 + card.size.w * col + colGap * col
+          card.position.y = this.position.y - totalHeight / 2 + card.size.h * row + rowGap * row
         }
       }
     }
